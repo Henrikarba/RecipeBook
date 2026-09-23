@@ -139,26 +139,44 @@ const recipes = [
     level: "Challenging",
     time: "3 hrs",
     emoji: "🍝",
-    description: "The real deal — slow ragù bolognese, proper béchamel, and fresh pasta sheets if you have the time. A labour of love.",
+    description: "Slow ragù, proper béchamel, layered and baked. Classic, or the Bologna original with green spinach sheets and a white-wine ragù — homemade pasta or dried sheets either way.",
     variants: [
-      { id: "fresh", label: "Fresh pasta", time: "3 hrs" },
-      { id: "dry", label: "Dried sheets", time: "2.5 hrs" },
+      { options: [
+        { id: "classic", label: "Classic" },
+        { id: "bologna", label: "Bolognese (green)" },
+      ] },
+      { options: [
+        { id: "fresh", label: "Fresh pasta" },
+        { id: "dry", label: "Dried sheets" },
+      ] },
+    ],
+    times: [
+      { only: ["classic", "dry"], time: "2.5 hrs" },
+      { only: ["bologna", "fresh"], time: "4 hrs" },
+      { only: ["bologna", "dry"], time: "3 hrs" },
     ],
     ingredients: [
       // Pasta
       { amount: 400, unit: "g", name: "00 flour (pasta)", only: ["fresh"] },
-      { amount: 4, name: "eggs (pasta)", only: ["fresh"] },
-      { amount: 250, unit: "g", name: "dried egg lasagne sheets", only: ["dry"] },
+      { amount: 4, name: "eggs (pasta)", only: ["classic", "fresh"] },
+      { amount: 3, name: "eggs (pasta)", only: ["bologna", "fresh"] },
+      { amount: 200, unit: "g", name: "fresh spinach", only: ["bologna", "fresh"] },
+      { amount: 250, unit: "g", name: "dried egg lasagne sheets", only: ["classic", "dry"] },
+      { amount: 250, unit: "g", name: "dried green lasagne sheets", only: ["bologna", "dry"] },
       // Ragù
-      { amount: 500, unit: "g", name: "minced beef" },
-      { amount: 200, unit: "g", name: "minced pork" },
-      { amount: 150, unit: "g", name: "pancetta, diced" },
-      { amount: 1, name: "large onion, finely diced" },
-      { amount: 2, name: "carrots, finely diced" },
-      { amount: 2, name: "celery stalks, finely diced" },
-      { amount: 200, unit: "ml", name: "dry red wine" },
-      { amount: 400, unit: "g", name: "canned crushed tomatoes" },
-      { amount: 3, unit: "tbsp", name: "tomato paste" },
+      { amount: 150, unit: "g", name: "pancetta (unsmoked), finely diced" },
+      { amount: 1, name: "large onion, finely chopped" },
+      { amount: 2, name: "carrots, finely chopped" },
+      { amount: 2, name: "celery stalks, finely chopped" },
+      { amount: 500, unit: "g", name: "minced beef, coarse (for ragù)" },
+      { amount: 200, unit: "g", name: "minced pork", only: ["classic"] },
+      { amount: 200, unit: "ml", name: "dry red wine", only: ["classic"] },
+      { amount: 150, unit: "ml", name: "dry white wine", only: ["bologna"] },
+      { amount: 400, unit: "g", name: "canned crushed tomatoes", only: ["classic"] },
+      { amount: 3, unit: "tbsp", name: "tomato paste", only: ["classic"] },
+      { amount: 300, unit: "g", name: "tomato passata", only: ["bologna"] },
+      { amount: 1, unit: "tbsp", name: "tomato paste", only: ["bologna"] },
+      { amount: 500, unit: "ml", name: "meat or vegetable stock", only: ["bologna"] },
       { amount: 200, unit: "ml", name: "whole milk" },
       // Béchamel
       { amount: 80, unit: "g", name: "butter (béchamel)" },
@@ -168,17 +186,25 @@ const recipes = [
       { amount: 6, unit: "scrapes", name: "nutmeg (freshly grated)" },
       // Assembly
       { amount: 150, unit: "g", name: "Parmigiano Reggiano, grated" },
+      { amount: 20, unit: "g", name: "butter (for the top)", only: ["bologna"] },
     ],
     steps: [
-      { title: "Make ragù", content: "Cook {i:5} until fat renders. Add {i:6}, {i:7}, {i:8} — cook 10 min. Add {i:3} and {i:4}, brown well. Add {i:9}, evaporate. Add {i:10} and {i:11}, stir. Add {i:12}. Simmer uncovered on very low heat 1.5–2 hrs, stirring occasionally. Season." },
-      { title: "Make fresh pasta", only: ["fresh"], content: "Mound {i:0}, make a well, crack {i:1} in. Mix with a fork, then knead by hand 10 min until smooth and elastic. Wrap in cling film, rest 30 min at room temperature." },
-      { title: "Roll pasta sheets", only: ["fresh"], content: "Divide dough into 6 portions. Roll each as thin as possible (pasta machine ideal, rolling pin works). Cut into sheets that fit your baking dish. Blanch in boiling salted water 30 sec, transfer to a towel." },
-      { title: "Make béchamel", only: ["fresh"], content: "Melt {i:13} in a saucepan. Add {i:14}, whisk constantly 2 min on medium heat. Gradually add warm {i:15}, whisking after each addition. Cook stirring until thick and smooth, 8–10 min. Season with salt and {i:17}." },
-      { title: "Make béchamel", only: ["dry"], content: "Melt {i:13} in a saucepan. Add {i:14}, whisk constantly 2 min on medium heat. Gradually add warm {i:15} and {i:16}, whisking after each addition. Cook stirring 8–10 min, but stop while it's still pourable rather than spreadable — dry sheets drink up the liquid and won't soften without it. Season with salt and {i:17}." },
-      { title: "Assemble", content: "Butter a large baking dish. Layer: béchamel, pasta sheet, ragù, béchamel, {i:18}. Repeat 4–5 layers. Top with béchamel and generous parmesan." },
-      { title: "Bake", content: "Bake at 180°C for 40–45 min until golden and bubbling. Rest 15 min before cutting." },
+      { title: "Make ragù", only: ["classic"], content: "Cook {i:6} until fat renders. Add {i:7}, {i:8}, {i:9} — cook 10 min. Add {i:10} and {i:11}, brown well. Add {i:12}, evaporate. Add {i:14} and {i:15}, stir. Add {i:19}. Simmer uncovered on very low heat 1.5–2 hrs, stirring occasionally. Season." },
+      { title: "Soffritto", only: ["bologna"], content: "Melt {i:6} in a heavy pot over medium-low until the fat runs. Add {i:7}, {i:8} and {i:9} and soften gently 10 min — no colour." },
+      { title: "Brown the meat", only: ["bologna"], content: "Add {i:10}, turn the heat up and break it apart. Cook until it loses its raw colour and starts to sizzle, about 10 min. Pour in {i:13} and let it evaporate completely." },
+      { title: "Simmer the ragù", only: ["bologna"], content: "Stir in {i:16}, {i:17} and a ladle of {i:18}. Partly cover and simmer on the lowest heat at least 2 hrs, adding stock whenever it looks dry. In the last 20 min stir in {i:19}. Season with salt and pepper. It should end up thick and meaty, not saucy." },
+      { title: "Make fresh pasta", only: ["classic", "fresh"], content: "Mound {i:0}, make a well, crack {i:1} in. Mix with a fork, then knead by hand 10 min until smooth and elastic. Wrap in cling film, rest 30 min at room temperature." },
+      { title: "Roll pasta sheets", only: ["classic", "fresh"], content: "Divide dough into 6 portions. Roll each as thin as possible (pasta machine ideal, rolling pin works). Cut into sheets that fit your baking dish. Blanch in boiling salted water 30 sec, transfer to a towel." },
+      { title: "Prepare the spinach", only: ["bologna", "fresh"], content: "While the ragù cooks: wilt {i:3} in a covered pan with just the water clinging to the leaves, 2–3 min. Cool, then squeeze in a clean towel until not a drop more comes out — wet spinach ruins the dough. Chop as finely as you possibly can, or blitz." },
+      { title: "Make the green dough", only: ["bologna", "fresh"], content: "Mound {i:0}, make a well, add {i:2} and the spinach. Mix with a fork, then knead 10 min until smooth and evenly green. It should be firm — add a spoon of flour if it sticks. Wrap and rest 30 min." },
+      { title: "Roll and blanch", only: ["bologna", "fresh"], content: "Roll very thin — you should almost see your hand through it (second-to-last setting on a pasta machine). Cut into sheets that fit your dish. Blanch a few at a time in boiling salted water for 20–30 sec, dip in cold water, lay flat on towels." },
+      { title: "Make béchamel", only: ["fresh"], content: "Melt {i:20} in a saucepan. Add {i:21}, whisk constantly 2 min on medium heat. Gradually add warm {i:22}, whisking after each addition. Cook stirring until smooth and it coats a spoon, 8–10 min. Season with salt and {i:24}." },
+      { title: "Make béchamel", only: ["dry"], content: "Melt {i:20} in a saucepan. Add {i:21}, whisk constantly 2 min on medium heat. Gradually add warm {i:22} and {i:23}, whisking after each addition. Cook stirring 8–10 min, but stop while it's still pourable rather than spreadable — dry sheets drink up the liquid and won't soften without it. Season with salt and {i:24}." },
+      { title: "Assemble", only: ["classic"], content: "Butter a large baking dish. Layer: béchamel, pasta sheet, ragù, béchamel, {i:25}. Repeat 4–5 layers. Top with béchamel and generous parmesan." },
+      { title: "Assemble", only: ["bologna"], content: "Butter a baking dish and spread a thin layer of ragù and béchamel on the bottom. Then repeat: pasta sheet, ragù, just a little béchamel — the ragù is the star — and a handful of {i:25}. Aim for at least six layers. Finish with ragù, béchamel, the last of the Parmigiano and {i:26} in small pieces." },
+      { title: "Bake", content: "Bake at 180°C for 35–45 min until golden and bubbling at the edges. Rest 15–20 min before cutting." },
     ],
-    tip: "The ragù needs time — don't rush it under 1.5 hrs. Lasagne is always better the next day reheated. Traditional Bolognese lasagne uses green spinach pasta sheets — if you're making fresh pasta and want to go full authentic, add a handful of cooked spinach to the dough."
+    tip: "The ragù needs time — don't rush it under 1.5 hrs, and it's even better made the day before. Lasagne is always better the next day reheated. For the Bolognese, thin sheets and many layers are the point — six is the minimum."
   },
   {
     id: 6,
@@ -189,9 +215,10 @@ const recipes = [
     emoji: "🍕",
     description: "Neapolitan-style pizza — homemade dough or a shop-bought shortcut — with a variety topping guide for the group.",
     variants: [
-      { id: "own", label: "Homemade dough", time: "45 min + 24 hr rise" },
-      { id: "store", label: "Ready-made dough", time: "45 min + 2 hr rest" },
+      { id: "own", label: "Homemade dough" },
+      { id: "store", label: "Ready-made dough" },
     ],
+    times: [{ only: ["store"], time: "45 min + 2 hr rest" }],
     ingredients: [
       // Dough
       { amount: 750, unit: "g", name: "00 flour (or strong bread flour)", only: ["own"] },
@@ -349,6 +376,7 @@ const SHOPPING_TERMS = [
   { m: /egg white/i, it: "albumi" },
   { m: /egg yolk/i, it: "tuorli" },
   { m: /pizza dough/i, it: "pasta per pizza", note: "Fridge section near the fresh pasta. Bakeries (forno, panificio) and some pizzerias sell dough balls by weight if you ask. Pre-rolled sheets ('stesa') work but won't puff up the same." },
+  { m: /dried green lasagne/i, it: "lasagne verdi (secche)", note: "Not in every supermarket, mostly Emilian brands. Fresh green sheets in the fridge section ('lasagne verdi fresche') are easier to find and work the same here. No green at all? Plain egg sheets." },
   { m: /dried egg lasagne/i, it: "lasagne all'uovo (secche)", note: "Most boxes say 'non serve precuocere' — no boiling needed, which is why the béchamel goes looser. Fresh sheets from the fridge section also work; use the fresh-pasta béchamel for those." },
   { m: /strong bread flour/i, it: "farina 00 / farina manitoba", note: "Strong bread flour is sold as 'manitoba'. Either works for pizza." },
   { m: /salmon/i, it: "salmone", note: "Fish counter or frozen. 'Filetto di salmone con pelle' is skin-on fillet." },
@@ -366,7 +394,11 @@ const SHOPPING_TERMS = [
   { m: /salame/i, it: "salame / salame piccante", note: "American-style pepperoni doesn't exist in Italy. 'Salame piccante' is the closest thing. Never ask for 'peperoni' — that means bell peppers." },
   { m: /bell pepper/i, it: "peperoni", note: "Careful: 'peperoni' in Italian means bell peppers, not the spicy sausage." },
   { m: /guanciale/i, it: "guanciale", note: "Cured pork cheek, at the banco gastronomia. Pancetta is the fallback." },
-  { m: /pancetta/i, it: "pancetta" },
+  { m: /pancetta/i, it: "pancetta dolce", note: "'Dolce' or 'tesa' is unsmoked — that's the one. 'Affumicata' is smoked and tastes out of place in ragù." },
+  { m: /spinach/i, it: "spinaci", note: "Frozen cubes ('spinaci a cubetti', freezer section) are fine and less work — use about half the weight, thaw and squeeze." },
+  { m: /passata/i, it: "passata di pomodoro" },
+  { m: /stock/i, it: "brodo", note: "Stock cubes are 'dado' (Star, Knorr); 'brodo pronto' comes in cartons." },
+  { m: /minced beef, coarse/i, it: "macinato di manzo per ragù", note: "Coarser than burger mince. Supermarket packs often say 'per ragù'; at the counter ask for 'macinato grosso'." },
   { m: /veal or chicken escalopes/i, it: "fettine di vitello / di pollo", note: "Ask for 'fettine sottili, per saltimbocca'. Chicken is much cheaper than veal for five." },
   { m: /chicken pieces/i, it: "cosce e fusi di pollo", note: "Thighs and drumsticks. Bone-in, not 'petto' (breast)." },
   { m: /minced beef/i, it: "macinato di manzo" },
@@ -428,9 +460,16 @@ const COURSES = [
   { id: "dessert", label: "Desserts" },
 ];
 
-// Ingredients/steps with `only: [variantIds]` show just for those variants.
-function inVariant(item, variantId) {
-  return !item.only || item.only.includes(variantId);
+// `variants` is one row of options, or several rows: [{ options: [...] }, ...].
+function variantGroups(recipe) {
+  if (!recipe?.variants) return [];
+  return recipe.variants[0].options ? recipe.variants.map(g => g.options) : [recipe.variants];
+}
+
+// `only: [ids]` must match the chosen option in every row it names.
+function inVariant(item, groups, chosen) {
+  return !item.only || groups.every((opts, g) =>
+    !opts.some(o => item.only.includes(o.id)) || item.only.includes(chosen[g]));
 }
 
 export default function RecipeBook() {
@@ -447,11 +486,20 @@ export default function RecipeBook() {
     setChecked(prev => ({ ...prev, [key]: !prev[key] }));
   }
 
+  function chooseVariant(r, optionId) {
+    const g = variantGroups(r).findIndex(opts => opts.some(o => o.id === optionId));
+    setVariantChoice(prev => {
+      const cur = [...(prev[r.id] ?? [])];
+      cur[g] = optionId;
+      return { ...prev, [r.id]: cur };
+    });
+  }
+
   function openRecipe(id, variantId) {
     const r = recipes.find(r => r.id === id);
     const rCourse = r.course ?? "main";
     if (rCourse !== course) { setCourse(rCourse); setCuisineFilter("All"); }
-    if (variantId) setVariantChoice(prev => ({ ...prev, [id]: variantId }));
+    if (variantId) chooseVariant(r, variantId);
     setSelected(recipes.indexOf(r));
     setServings(CONFIG.baseServings);
     window.scrollTo(0, 0);
@@ -509,12 +557,13 @@ export default function RecipeBook() {
     : courseRecipes.filter(r => r.cuisine === cuisineFilter);
 
   const recipe = selected !== null ? recipes[selected] : null;
-  const variant = recipe?.variants ? (variantChoice[recipe.id] ?? recipe.variants[0].id) : null;
-  const variantInfo = recipe?.variants?.find(v => v.id === variant);
+  const groups = variantGroups(recipe);
+  const chosen = groups.map((opts, g) => variantChoice[recipe.id]?.[g] ?? opts[0].id);
   const visibleIngredients = recipe
-    ? recipe.ingredients.map((ing, i) => ({ ing, i })).filter(({ ing }) => inVariant(ing, variant))
+    ? recipe.ingredients.map((ing, i) => ({ ing, i })).filter(({ ing }) => inVariant(ing, groups, chosen))
     : [];
-  const visibleSteps = recipe ? recipe.steps.filter(s => inVariant(s, variant)) : [];
+  const visibleSteps = recipe ? recipe.steps.filter(s => inVariant(s, groups, chosen)) : [];
+  const time = recipe && (recipe.times?.find(t => inVariant(t, groups, chosen))?.time ?? recipe.time);
 
   return (
     <div style={{
@@ -601,19 +650,19 @@ export default function RecipeBook() {
               {recipe.description}
             </p>
             <div style={{ color: "#8b6914", fontSize: 14, fontFamily: "sans-serif" }}>
-              ⏱ {variantInfo?.time ?? recipe.time}
+              ⏱ {time}
             </div>
           </div>
 
           {/* Variant switcher */}
-          {recipe.variants && (
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", margin: "0 24px 16px" }}>
-              {recipe.variants.map(v => {
-                const active = v.id === variant;
+          {groups.map((opts, g) => (
+            <div key={g} style={{ display: "flex", gap: 8, flexWrap: "wrap", margin: "0 24px 12px" }}>
+              {opts.map(v => {
+                const active = v.id === chosen[g];
                 return (
                   <button
                     key={v.id}
-                    onClick={() => setVariantChoice(prev => ({ ...prev, [recipe.id]: v.id }))}
+                    onClick={() => chooseVariant(recipe, v.id)}
                     style={{
                       background: active ? "#c8922a" : "#fff",
                       color: active ? "#fff" : "#8b6914",
@@ -630,7 +679,8 @@ export default function RecipeBook() {
                 );
               })}
             </div>
-          )}
+          ))}
+          {groups.length > 0 && <div style={{ height: 4 }} />}
 
           {/* Servings control */}
           <div style={{
@@ -815,7 +865,7 @@ export default function RecipeBook() {
             }}>Method</h3>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {visibleSteps.map((step, i) => (
-                <div key={`${variant}-${i}`} style={{
+                <div key={`${chosen.join()}-${i}`} style={{
                   display: "flex",
                   gap: 16,
                   background: "#fff",
