@@ -139,11 +139,16 @@ const recipes = [
     level: "Challenging",
     time: "3 hrs",
     emoji: "🍝",
-    description: "The real deal — fresh pasta sheets, slow ragù bolognese, proper béchamel. A labour of love.",
+    description: "The real deal — slow ragù bolognese, proper béchamel, and fresh pasta sheets if you have the time. A labour of love.",
+    variants: [
+      { id: "fresh", label: "Fresh pasta", time: "3 hrs" },
+      { id: "dry", label: "Dried sheets", time: "2.5 hrs" },
+    ],
     ingredients: [
-      // Fresh pasta
-      { amount: 400, unit: "g", name: "00 flour (pasta)" },
-      { amount: 4, name: "eggs (pasta)" },
+      // Pasta
+      { amount: 400, unit: "g", name: "00 flour (pasta)", only: ["fresh"] },
+      { amount: 4, name: "eggs (pasta)", only: ["fresh"] },
+      { amount: 250, unit: "g", name: "dried egg lasagne sheets", only: ["dry"] },
       // Ragù
       { amount: 500, unit: "g", name: "minced beef" },
       { amount: 200, unit: "g", name: "minced pork" },
@@ -159,35 +164,42 @@ const recipes = [
       { amount: 80, unit: "g", name: "butter (béchamel)" },
       { amount: 80, unit: "g", name: "plain flour (béchamel)" },
       { amount: 800, unit: "ml", name: "whole milk (béchamel)" },
+      { amount: 150, unit: "ml", name: "whole milk, extra (béchamel)", only: ["dry"] },
       { amount: 6, unit: "scrapes", name: "nutmeg (freshly grated)" },
       // Assembly
       { amount: 150, unit: "g", name: "Parmigiano Reggiano, grated" },
     ],
     steps: [
-      { title: "Make ragù", content: "Cook {i:4} until fat renders. Add {i:5}, {i:6}, {i:7} — cook 10 min. Add {i:2} and {i:3}, brown well. Add {i:8}, evaporate. Add {i:9} and {i:10}, stir. Add {i:11}. Simmer uncovered on very low heat 1.5–2 hrs, stirring occasionally. Season." },
-      { title: "Make fresh pasta", content: "Mound {i:0}, make a well, crack {i:1} in. Mix with a fork, then knead by hand 10 min until smooth and elastic. Wrap in cling film, rest 30 min at room temperature." },
-      { title: "Roll pasta sheets", content: "Divide dough into 6 portions. Roll each as thin as possible (pasta machine ideal, rolling pin works). Cut into sheets that fit your baking dish. Blanch in boiling salted water 30 sec, transfer to a towel." },
-      { title: "Make béchamel", content: "Melt {i:12} in a saucepan. Add {i:13}, whisk constantly 2 min on medium heat. Gradually add warm {i:14}, whisking after each addition. Cook stirring until thick and smooth, 8–10 min. Season with salt and {i:15}." },
-      { title: "Assemble", content: "Butter a large baking dish. Layer: béchamel, pasta sheet, ragù, béchamel, {i:16}. Repeat 4–5 layers. Top with béchamel and generous parmesan." },
+      { title: "Make ragù", content: "Cook {i:5} until fat renders. Add {i:6}, {i:7}, {i:8} — cook 10 min. Add {i:3} and {i:4}, brown well. Add {i:9}, evaporate. Add {i:10} and {i:11}, stir. Add {i:12}. Simmer uncovered on very low heat 1.5–2 hrs, stirring occasionally. Season." },
+      { title: "Make fresh pasta", only: ["fresh"], content: "Mound {i:0}, make a well, crack {i:1} in. Mix with a fork, then knead by hand 10 min until smooth and elastic. Wrap in cling film, rest 30 min at room temperature." },
+      { title: "Roll pasta sheets", only: ["fresh"], content: "Divide dough into 6 portions. Roll each as thin as possible (pasta machine ideal, rolling pin works). Cut into sheets that fit your baking dish. Blanch in boiling salted water 30 sec, transfer to a towel." },
+      { title: "Make béchamel", only: ["fresh"], content: "Melt {i:13} in a saucepan. Add {i:14}, whisk constantly 2 min on medium heat. Gradually add warm {i:15}, whisking after each addition. Cook stirring until thick and smooth, 8–10 min. Season with salt and {i:17}." },
+      { title: "Make béchamel", only: ["dry"], content: "Melt {i:13} in a saucepan. Add {i:14}, whisk constantly 2 min on medium heat. Gradually add warm {i:15} and {i:16}, whisking after each addition. Cook stirring 8–10 min, but stop while it's still pourable rather than spreadable — dry sheets drink up the liquid and won't soften without it. Season with salt and {i:17}." },
+      { title: "Assemble", content: "Butter a large baking dish. Layer: béchamel, pasta sheet, ragù, béchamel, {i:18}. Repeat 4–5 layers. Top with béchamel and generous parmesan." },
       { title: "Bake", content: "Bake at 180°C for 40–45 min until golden and bubbling. Rest 15 min before cutting." },
     ],
-    tip: "The ragù needs time — don't rush it under 1.5 hrs. Lasagne is always better the next day reheated. If using storebought dry sheets, make the béchamel noticeably thinner than you think — add an extra splash of milk so it's more pourable than spreadable. Dry sheets absorb a lot of moisture and need it or they won't soften properly. Traditional Bolognese lasagne uses green spinach pasta sheets — if you want to go full authentic, add a handful of cooked spinach when making the pasta dough. Totally optional."
+    tip: "The ragù needs time — don't rush it under 1.5 hrs. Lasagne is always better the next day reheated. Traditional Bolognese lasagne uses green spinach pasta sheets — if you're making fresh pasta and want to go full authentic, add a handful of cooked spinach to the dough."
   },
   {
     id: 6,
-    name: "Pizza (Homemade Dough)",
+    name: "Pizza",
     cuisine: "Italian",
     level: "Challenging",
     time: "45 min + 24 hr rise",
     emoji: "🍕",
-    description: "Neapolitan-style homemade pizza dough with a variety topping guide for the group.",
+    description: "Neapolitan-style pizza — homemade dough or a shop-bought shortcut — with a variety topping guide for the group.",
+    variants: [
+      { id: "own", label: "Homemade dough", time: "45 min + 24 hr rise" },
+      { id: "store", label: "Ready-made dough", time: "45 min + 2 hr rest" },
+    ],
     ingredients: [
       // Dough
-      { amount: 750, unit: "g", name: "00 flour (or strong bread flour)" },
-      { amount: 500, unit: "ml", name: "lukewarm water" },
-      { amount: 3, unit: "g", name: "instant yeast (less = better flavour)" },
-      { amount: 15, unit: "g", name: "salt" },
-      { amount: 2, unit: "tbsp", name: "olive oil" },
+      { amount: 750, unit: "g", name: "00 flour (or strong bread flour)", only: ["own"] },
+      { amount: 500, unit: "ml", name: "lukewarm water", only: ["own"] },
+      { amount: 3, unit: "g", name: "instant yeast (less = better flavour)", only: ["own"] },
+      { amount: 15, unit: "g", name: "salt", only: ["own"] },
+      { amount: 2, unit: "tbsp", name: "olive oil", only: ["own"] },
+      { amount: 1250, unit: "g", name: "ready-made pizza dough", only: ["store"] },
       // Tomato sauce
       { amount: 400, unit: "g", name: "canned San Marzano tomatoes" },
       { amount: 2, name: "garlic cloves, crushed" },
@@ -205,20 +217,140 @@ const recipes = [
       { amount: 1, unit: "handful", name: "fresh basil (finish)" },
     ],
     steps: [
-      { title: "Make dough", content: "Dissolve {i:2} in {i:1}. Add {i:0} and {i:3}, mix into a shaggy dough. Add {i:4}, knead 10 min by hand until smooth and elastic. It should spring back when poked. Less yeast + more time = much better flavour." },
-      { title: "Cold rise", content: "Place in a lightly oiled bowl, cover with cling film. Leave at room temperature 1 hr, then refrigerate for 24–48 hrs. This slow cold fermentation is the single biggest upgrade. Don't skip it." },
-      { title: "Divide and ball", content: "Remove dough 2–3 hrs before baking — it must come fully to room temperature or it won't stretch. Divide into 5 equal balls (~250g each). Place on a floured tray, cover with a damp towel." },
-      { title: "Make sauce", content: "Crush {i:5} by hand or blend briefly. Mix with {i:8}, {i:6}, {i:7} and {i:9}. Do not cook — raw sauce on pizza is the authentic Neapolitan way." },
+      { title: "Make dough", only: ["own"], content: "Dissolve {i:2} in {i:1}. Add {i:0} and {i:3}, mix into a shaggy dough. Add {i:4}, knead 10 min by hand until smooth and elastic. It should spring back when poked. Less yeast + more time = much better flavour." },
+      { title: "Cold rise", only: ["own"], content: "Place in a lightly oiled bowl, cover with cling film. Leave at room temperature 1 hr, then refrigerate for 24–48 hrs. This slow cold fermentation is the single biggest upgrade. Don't skip it." },
+      { title: "Divide and ball", only: ["own"], content: "Remove dough 2–3 hrs before baking — it must come fully to room temperature or it won't stretch. Divide into balls of ~250g, one per pizza. Place on a floured tray, cover with a damp towel." },
+      { title: "Rest the dough", only: ["store"], content: "Take {i:5} out of the fridge 2–3 hrs before baking — cold dough tears instead of stretching. If it came as one lump, divide into balls of ~250g, one per pizza. Place on a floured tray, cover with a damp towel." },
+      { title: "Make sauce", content: "Crush {i:6} by hand or blend briefly. Mix with {i:9}, {i:7}, {i:8} and {i:10}. Do not cook — raw sauce on pizza is the authentic Neapolitan way." },
       { title: "Shape pizzas", content: "Preheat oven to absolute maximum (250°C+) for at least 30 min. If you have a pizza stone, preheat it too — it makes a big difference. Stretch dough by hand only — no rolling pin (it presses out the air bubbles). Push from the centre outward, leaving the edge thicker. Lift and rotate, letting gravity stretch it gently." },
-      { title: "Top and bake", content: "Spread sauce thinly — less is more. Add torn {i:10}, then toppings (except {i:11} and basil). Bake 8–12 min until crust is golden with charred spots at the edges. Add {i:11} and {i:16} only after baking, never in the oven." },
+      { title: "Top and bake", content: "Spread sauce thinly — less is more. Add torn {i:11}, then toppings (except {i:12} and basil). Bake 8–12 min until crust is golden with charred spots at the edges. Add {i:12} and {i:17} only after baking, never in the oven." },
     ],
-    tip: "3g yeast + 24–48hr cold rise is the authentic Neapolitan method — the long fermentation develops flavour the fast version can't match. A full sachet (7g) works if you're short on time but the result is noticeably less good. Max oven heat and a pizza stone are the other two non-negotiables."
+    tip: "Max oven heat and a pizza stone matter most, whichever dough you use. For homemade: 3g yeast + 24–48hr cold rise is the authentic Neapolitan method — the long fermentation develops flavour the fast version can't match. A full sachet (7g) works if you're short on time but the result is noticeably less good."
+  },
+  {
+    id: 7,
+    name: "Chocolate Brownies",
+    course: "dessert",
+    cuisine: "American",
+    level: "Easy",
+    time: "50 min",
+    emoji: "🍫",
+    description: "Classic fudgy cocoa brownies, with or without white chocolate chunks through the middle and on top.",
+    variants: [
+      { id: "white", label: "White chocolate" },
+      { id: "plain", label: "Plain" },
+    ],
+    ingredients: [
+      { amount: 190, unit: "g", name: "unsalted butter" },
+      { amount: 335, unit: "g", name: "granulated sugar" },
+      { amount: 85, unit: "g", name: "cocoa powder (unsweetened)" },
+      { amount: 3, name: "large eggs" },
+      { amount: 1.5, unit: "tsp", name: "vanilla extract" },
+      { amount: 170, unit: "g", name: "plain flour" },
+      { amount: 0.375, unit: "tsp", name: "salt" },
+      { amount: 0.375, unit: "tsp", name: "baking powder" },
+      { amount: 200, unit: "g", name: "white chocolate, chopped into chunks", only: ["white"] },
+    ],
+    steps: [
+      { title: "Prep", content: "Preheat oven to 175°C (160°C fan/ventilato). Line a 23×23 cm or 23×33 cm pan with baking paper." },
+      { title: "Melt and mix", content: "Melt {i:0}, then whisk in {i:1} and {i:2} until smooth." },
+      { title: "Eggs", content: "Whisk in {i:3} one at a time, then {i:4}." },
+      { title: "Fold in flour", content: "Fold in {i:5}, {i:6} and {i:7} until just combined. Stop as soon as no dry flour shows — overmixing makes them cakey." },
+      { title: "White chocolate", only: ["white"], content: "Fold in {i:8}, saving a handful to scatter on top." },
+      { title: "Bake", content: "Pour into the pan and bake about 28 min, until a toothpick comes out with a few moist crumbs. A smaller pan makes thicker brownies that need a few minutes longer." },
+      { title: "Cool", content: "Cool completely in the pan, at least 20 min, before slicing." },
+    ],
+    tip: "Pull them out while the toothpick still has moist crumbs — they keep setting as they cool. If it comes out clean they're already overdone."
+  },
+  {
+    id: 8,
+    name: "Ricciarelli di Siena",
+    course: "dessert",
+    cuisine: "Italian",
+    level: "Intermediate",
+    time: "2 days · 1 hr hands-on",
+    emoji: "🍪",
+    description: "Chewy, crackled Sienese almond biscuits. Pure almond, no citrus. Makes about 50 — start two days ahead.",
+    variants: [
+      { id: "pure", label: "Pure almond" },
+      { id: "amaretti", label: "With amaretti" },
+    ],
+    ingredients: [
+      { amount: 500, unit: "g", name: "almond flour" },
+      { amount: 415, unit: "g", name: "granulated sugar", only: ["pure"] },
+      { amount: 390, unit: "g", name: "granulated sugar", only: ["amaretti"] },
+      { amount: 125, unit: "g", name: "icing sugar, for the dough" },
+      { amount: 3, name: "large egg whites, room temperature", pair: { leftover: "Yolks", id: 9, variant: "yolks" } },
+      { amount: 1, name: "large egg white, extra (only if needed)" },
+      { amount: 0.5, unit: "tsp", name: "fine salt (scant)" },
+      { amount: 5, unit: "g", name: "baker's ammonia" },
+      { amount: 1, unit: "capsule", name: "vanilla extract" },
+      { amount: 40, unit: "g", name: "dry amaretti, crushed fine", only: ["amaretti"] },
+      { amount: 170, unit: "g", name: "icing sugar, for coating" },
+      { amount: 5, unit: "sheets", name: "wafer paper (optional)" },
+    ],
+    steps: [
+      { title: "Mix the dry ingredients", only: ["pure"], content: "In a large bowl combine {i:0}, {i:1}, {i:3} and {i:7}. Break up every lump. If the almond flour feels gritty, pulse it with the icing sugar for a few seconds first." },
+      { title: "Mix the dry ingredients", only: ["amaretti"], content: "In a large bowl combine {i:0}, {i:2}, {i:3}, {i:7} and {i:9}. Break up every lump. If the almond flour feels gritty, pulse it with the icing sugar for a few seconds first." },
+      { title: "Whip the whites", content: "Whip {i:4} with {i:6} to soft peaks — foamy and holding a shape, not stiff and dry. Keep the extra white aside." },
+      { title: "Form the paste", content: "Stir {i:8} into the whites, then fold them into the dry mix in two or three additions. Target: a thick, sticky, marzipan-like paste that just holds together. If it stays crumbly, add the extra egg white a spoonful at a time — pre-ground flour is dry and sometimes needs it. If it goes loose, add more almond flour." },
+      { title: "First rest", content: "Cover the bowl with cling film and leave somewhere cool for 12–24 hours. Not optional — this hydrates the almond and is what makes them chewy instead of sandy." },
+      { title: "Shape and coat", content: "Put {i:10} in a shallow dish. Take walnut-sized pieces, roll into short logs, flatten slightly, pinch the ends into the classic pointed oval. Roll each generously in icing sugar — thickly. Lay on trays lined with baking paper or on {i:11}, a couple of centimetres apart." },
+      { title: "Second rest — this makes the cracks", content: "Leave uncovered at room temperature until the surface is dry to the touch and no longer tacky — 4 to 12 hours, as little as 3–4 in a hot kitchen. Judge by touch, not the clock. This dry skin is what cracks in the oven." },
+      { title: "Bake", content: "Heat the oven to 150°C. Dust with a little more icing sugar and bake 12–15 min per tray. They must stay pale — once the edges colour they're overdone. They'll look underbaked and soft in the centre; correct. The kitchen will smell strongly of ammonia; it bakes off completely." },
+      { title: "Cool completely", content: "Leave them on the tray until stone cold — they're fragile warm and firm up as they cool. Trim excess wafer paper if used." },
+    ],
+    tip: "Airtight tin, better on day two, keeps two weeks. No ammoniaca? Use 2 tsp baking powder instead — less dramatic crack, same taste. If you find aroma di mandorla amara, add 1 tsp to the pure-almond version for the bitter-almond note the amaretti would give."
+  },
+  {
+    id: 9,
+    name: "Spaghetti alla Carbonara",
+    cuisine: "Italian",
+    level: "Easy",
+    time: "20 min",
+    emoji: "🥓",
+    description: "The Roman original: guanciale, pecorino, egg and pepper. No cream, no garlic, no onion.",
+    variants: [
+      { id: "whole", label: "Whole eggs" },
+      { id: "yolks", label: "Yolks only (classic)" },
+    ],
+    ingredients: [
+      { amount: 500, unit: "g", name: "spaghetti or rigatoni" },
+      { amount: 200, unit: "g", name: "guanciale, cut into thick strips" },
+      { amount: 2.5, name: "large eggs", only: ["whole"] },
+      { amount: 6, name: "egg yolks", only: ["yolks"], pair: { leftover: "Whites", id: 8 } },
+      { amount: 100, unit: "g", name: "Pecorino Romano, finely grated" },
+      { amount: 2, unit: "tsp", name: "black pepper, coarsely ground" },
+      { amount: 1, unit: "tsp", name: "salt (for pasta water)" },
+    ],
+    steps: [
+      { title: "Start the water", content: "Bring a big pot of water to the boil and salt it lightly with {i:6} — the guanciale and pecorino bring plenty of salt." },
+      { title: "Render the guanciale", content: "Put {i:1} in a cold wide pan, then turn the heat to medium-low. Let it render 8–10 min until the fat runs clear and the edges crisp, with the middle still a little chewy. No oil needed. Take off the heat." },
+      { title: "Cook the pasta", content: "Cook {i:0} until 1 min short of al dente. Reserve a mug of pasta water before draining." },
+      { title: "Make the egg mix", only: ["whole"], content: "Whisk {i:2} with {i:4} and most of the {i:5} into a thick paste." },
+      { title: "Make the egg mix", only: ["yolks"], content: "Whisk {i:3} with {i:4} and most of the {i:5} into a thick paste." },
+      { title: "Combine off the heat", content: "Put the guanciale pan back on low with a splash of pasta water. Add the drained pasta and toss 1 min. Now take the pan off the heat and wait 30 seconds — then pour in the egg mix and toss fast, adding pasta water a spoonful at a time until glossy and creamy. Serve with the rest of the pepper and extra pecorino." },
+    ],
+    tip: "Scrambled egg means the pan was too hot — the heat must be off before the eggs go in. Yolks give a richer, silkier sauce; whole eggs are lighter and more forgiving. Pancetta works if you can't find guanciale, but guanciale is what makes it Roman."
   }
 ];
 
 // Local shopping names. First match wins, so specific patterns come first.
 // Swap this whole list to localise the app for another country.
 const SHOPPING_TERMS = [
+  { m: /cocoa powder/i, it: "cacao amaro in polvere", note: "Must say 'amaro' (unsweetened). 'Cacao zuccherato' or anything aimed at drinks is sweetened and will throw the recipe off." },
+  { m: /baking powder/i, it: "lievito per dolci", note: "Baking aisle, in 16g sachets (Paneangeli etc.), often vanilla-flavoured — that's fine. Not 'lievito di birra', which is yeast." },
+  { m: /vanilla extract/i, it: "estratto di vaniglia / vanillina", note: "Baking aisle, usually as small single-dose capsules or vials rather than a bottle. If there's none, 'vanillina' powder sachets are the usual substitute." },
+  { m: /almond flour/i, it: "farina di mandorle", note: "Baking aisle, usually 250 g packs. 'Granella di mandorle' is chopped nuts, not flour." },
+  { m: /icing sugar/i, it: "zucchero a velo" },
+  { m: /baker's ammonia/i, it: "ammoniaca per dolci", note: "Baking aisle, 8 g sachets (Paneangeli). Not the household cleaner." },
+  { m: /amaretti/i, it: "amaretti secchi", note: "The dry, crunchy kind — not 'amaretti morbidi' (soft)." },
+  { m: /wafer paper/i, it: "ostie", note: "Edible wafer sheets, baking aisle. Optional — baking paper works fine." },
+  { m: /egg white/i, it: "albumi" },
+  { m: /egg yolk/i, it: "tuorli" },
+  { m: /pizza dough/i, it: "pasta per pizza", note: "Fridge section near the fresh pasta. Bakeries (forno, panificio) and some pizzerias sell dough balls by weight if you ask. Pre-rolled sheets ('stesa') work but won't puff up the same." },
+  { m: /dried egg lasagne/i, it: "lasagne all'uovo (secche)", note: "Most boxes say 'non serve precuocere' — no boiling needed, which is why the béchamel goes looser. Fresh sheets from the fridge section also work; use the fresh-pasta béchamel for those." },
+  { m: /strong bread flour/i, it: "farina 00 / farina manitoba", note: "Strong bread flour is sold as 'manitoba'. Either works for pizza." },
   { m: /salmon/i, it: "salmone", note: "Fish counter or frozen. 'Filetto di salmone con pelle' is skin-on fillet." },
   { m: /soy sauce/i, it: "salsa di soia", note: "Not a standard Italian pantry item. Look in the 'cucina del mondo' or 'etnico' aisle — bigger Coop and Conad stores carry it, small village shops often don't." },
   { m: /sesame oil/i, it: "olio di sesamo", note: "Same aisle as the soy sauce, and the item most likely to be missing. The dish works without it — just leave it out rather than substituting." },
@@ -250,7 +382,7 @@ const SHOPPING_TERMS = [
   { m: /dry white wine/i, it: "vino bianco secco", note: "Look for 'secco' on the label. Avoid 'abboccato' or 'amabile' — those are off-dry to sweet and turn syrupy when reduced. Cheap local sfuso is fine." },
   { m: /dry red wine/i, it: "vino rosso secco" },
   { m: /red wine vinegar/i, it: "aceto di vino rosso" },
-  { m: /stale ciabatta|rustic bread/i, it: "pane toscano / ciabatta", note: "Pane toscano is the unsalted local loaf — traditional for panzanella and bruschetta. Must be a day old for panzanella." },
+  { m: /stale ciabatta|rustic bread/i, it: "pane toscano / ciabatta", note: "Pane toscano is the unsalted local loaf — traditional for bruschetta." },
   { m: /spaghetti|tonnarelli/i, it: "spaghetti" },
   { m: /penne or rigatoni/i, it: "penne / rigatoni" },
   { m: /rigatoni or bucatini/i, it: "rigatoni / bucatini" },
@@ -258,7 +390,7 @@ const SHOPPING_TERMS = [
   { m: /nutmeg/i, it: "noce moscata" },
   { m: /bay lea/i, it: "alloro" },
   { m: /rosemary/i, it: "rosmarino" },
-  { m: /sage/i, it: "salvia" },
+  { m: /\bsage\b/i, it: "salvia" },
   { m: /basil/i, it: "basilico" },
   { m: /parsley/i, it: "prezzemolo" },
   { m: /oregano/i, it: "origano" },
@@ -276,7 +408,7 @@ const SHOPPING_TERMS = [
   { m: /butter/i, it: "burro" },
   { m: /eggs/i, it: "uova" },
   { m: /lukewarm water/i, it: "acqua tiepida" },
-  { m: /salt/i, it: "sale" },
+  { m: /\bsalt\b/i, it: "sale" },
 ];
 
 function localTermFor(name) {
@@ -290,16 +422,39 @@ const levelColors = {
   Challenging: { bg: "#fce4ec", text: "#880e4f", dot: "#e91e63" },
 };
 
+// Recipes without `course` count as mains.
+const COURSES = [
+  { id: "main", label: "Mains" },
+  { id: "dessert", label: "Desserts" },
+];
+
+// Ingredients/steps with `only: [variantIds]` show just for those variants.
+function inVariant(item, variantId) {
+  return !item.only || item.only.includes(variantId);
+}
+
 export default function RecipeBook() {
   const [selected, setSelected] = useState(null);
   const [servings, setServings] = useState(CONFIG.baseServings);
+  const [course, setCourse] = useState("main");
   const [cuisineFilter, setCuisineFilter] = useState("All");
+  const [variantChoice, setVariantChoice] = useState({});
   const [checked, setChecked] = useState({});
   const [openNote, setOpenNote] = useState(null);
 
   function toggleIngredient(recipeId, idx) {
     const key = `${recipeId}-${idx}`;
     setChecked(prev => ({ ...prev, [key]: !prev[key] }));
+  }
+
+  function openRecipe(id, variantId) {
+    const r = recipes.find(r => r.id === id);
+    const rCourse = r.course ?? "main";
+    if (rCourse !== course) { setCourse(rCourse); setCuisineFilter("All"); }
+    if (variantId) setVariantChoice(prev => ({ ...prev, [id]: variantId }));
+    setSelected(recipes.indexOf(r));
+    setServings(CONFIG.baseServings);
+    window.scrollTo(0, 0);
   }
 
   function isChecked(recipeId, idx) {
@@ -347,12 +502,19 @@ export default function RecipeBook() {
     });
   }
 
-  const cuisines = [...new Set(recipes.map(r => r.cuisine).filter(Boolean))];
+  const courseRecipes = recipes.filter(r => (r.course ?? "main") === course);
+  const cuisines = [...new Set(courseRecipes.map(r => r.cuisine).filter(Boolean))];
   const visibleRecipes = cuisineFilter === "All"
-    ? recipes
-    : recipes.filter(r => r.cuisine === cuisineFilter);
+    ? courseRecipes
+    : courseRecipes.filter(r => r.cuisine === cuisineFilter);
 
   const recipe = selected !== null ? recipes[selected] : null;
+  const variant = recipe?.variants ? (variantChoice[recipe.id] ?? recipe.variants[0].id) : null;
+  const variantInfo = recipe?.variants?.find(v => v.id === variant);
+  const visibleIngredients = recipe
+    ? recipe.ingredients.map((ing, i) => ({ ing, i })).filter(({ ing }) => inVariant(ing, variant))
+    : [];
+  const visibleSteps = recipe ? recipe.steps.filter(s => inVariant(s, variant)) : [];
 
   return (
     <div style={{
@@ -439,9 +601,36 @@ export default function RecipeBook() {
               {recipe.description}
             </p>
             <div style={{ color: "#8b6914", fontSize: 14, fontFamily: "sans-serif" }}>
-              ⏱ {recipe.time}
+              ⏱ {variantInfo?.time ?? recipe.time}
             </div>
           </div>
+
+          {/* Variant switcher */}
+          {recipe.variants && (
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", margin: "0 24px 16px" }}>
+              {recipe.variants.map(v => {
+                const active = v.id === variant;
+                return (
+                  <button
+                    key={v.id}
+                    onClick={() => setVariantChoice(prev => ({ ...prev, [recipe.id]: v.id }))}
+                    style={{
+                      background: active ? "#c8922a" : "#fff",
+                      color: active ? "#fff" : "#8b6914",
+                      border: active ? "1px solid #c8922a" : "1px solid #e0cfa8",
+                      borderRadius: 20,
+                      padding: "6px 14px",
+                      fontSize: 13,
+                      fontFamily: "sans-serif",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      transition: "all 0.15s",
+                    }}
+                  >{v.label}</button>
+                );
+              })}
+            </div>
+          )}
 
           {/* Servings control */}
           <div style={{
@@ -505,7 +694,7 @@ export default function RecipeBook() {
               border: "1px solid #e8d9b8",
               overflow: "hidden",
             }}>
-              {recipe.ingredients.map((ing, i) => {
+              {visibleIngredients.map(({ ing, i }, pos) => {
                 const have = isChecked(recipe.id, i);
                 const ita = localTermFor(ing.name);
                 const noteKey = `${recipe.id}-${i}`;
@@ -514,7 +703,7 @@ export default function RecipeBook() {
                   <div
                     key={i}
                     style={{
-                      borderBottom: i < recipe.ingredients.length - 1 ? "1px solid #f0e4c8" : "none",
+                      borderBottom: pos < visibleIngredients.length - 1 ?"1px solid #f0e4c8" : "none",
                       background: have ? "#f7f7f4" : "#fff",
                       transition: "background 0.15s",
                     }}
@@ -573,6 +762,17 @@ export default function RecipeBook() {
                               )}
                             </div>
                           )}
+                          {ing.pair && (
+                            <div
+                              onClick={(e) => { e.stopPropagation(); openRecipe(ing.pair.id, ing.pair.variant); }}
+                              style={{ marginTop: 2, fontSize: 13, color: "#a8791a", fontFamily: "sans-serif", cursor: "pointer" }}
+                            >
+                              ↪ {ing.pair.leftover} left over?{" "}
+                              <span style={{ textDecoration: "underline" }}>
+                                {recipes.find(r => r.id === ing.pair.id).name}
+                              </span>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <span style={{
@@ -614,8 +814,8 @@ export default function RecipeBook() {
               margin: "0 0 16px",
             }}>Method</h3>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {recipe.steps.map((step, i) => (
-                <div key={i} style={{
+              {visibleSteps.map((step, i) => (
+                <div key={`${variant}-${i}`} style={{
                   display: "flex",
                   gap: 16,
                   background: "#fff",
@@ -664,6 +864,32 @@ export default function RecipeBook() {
       ) : (
         // Recipe list
         <div style={{ maxWidth: 700, margin: "0 auto", padding: "24px 16px 60px" }}>
+          <div style={{
+            display: "flex", gap: 24, marginBottom: 20, padding: "0 8px",
+            borderBottom: "1px solid #e0cfa8",
+          }}>
+            {COURSES.map(c => {
+              const active = course === c.id;
+              return (
+                <button
+                  key={c.id}
+                  onClick={() => { setCourse(c.id); setCuisineFilter("All"); }}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    borderBottom: active ? "3px solid #c8922a" : "3px solid transparent",
+                    marginBottom: -1,
+                    padding: "8px 2px 10px",
+                    fontFamily: "inherit",
+                    fontSize: 18,
+                    fontWeight: 700,
+                    color: active ? "#1a1008" : "#b0956a",
+                    cursor: "pointer",
+                  }}
+                >{c.label}</button>
+              );
+            })}
+          </div>
           {cuisines.length > 1 && (
             <div style={{
               display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 24, padding: "0 4px",
@@ -720,11 +946,10 @@ export default function RecipeBook() {
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {inLevel.map((r) => {
-                  const globalIdx = recipes.indexOf(r);
                   return (
                     <button
                       key={r.id}
-                      onClick={() => { setSelected(globalIdx); setServings(CONFIG.baseServings); }}
+                      onClick={() => openRecipe(r.id)}
                       style={{
                         display: "flex",
                         alignItems: "center",
