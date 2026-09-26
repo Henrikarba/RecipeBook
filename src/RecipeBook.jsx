@@ -480,6 +480,8 @@ export default function RecipeBook() {
   const [variantChoice, setVariantChoice] = useState({});
   const [checked, setChecked] = useState({});
   const [openNote, setOpenNote] = useState(null);
+  const [editing, setEditing] = useState(null);
+  const [draft, setDraft] = useState("");
 
   function toggleIngredient(recipeId, idx) {
     const key = `${recipeId}-${idx}`;
@@ -503,6 +505,13 @@ export default function RecipeBook() {
     setSelected(recipes.indexOf(r));
     setServings(CONFIG.baseServings);
     window.scrollTo(0, 0);
+  }
+
+  // Rescale the whole recipe so this ingredient lands on the typed amount.
+  function commitAmount(ing) {
+    const target = parseFloat(draft.replace(",", "."));
+    if (target > 0) setServings((target / ing.amount) * CONFIG.baseServings);
+    setEditing(null);
   }
 
   function isChecked(recipeId, idx) {
@@ -697,7 +706,7 @@ export default function RecipeBook() {
             </span>
             <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
               <button
-                onClick={() => setServings(s => Math.max(1, s - 1))}
+                onClick={() => setServings(s => Math.max(1, Math.ceil(s) - 1))}
                 style={{
                   width: 32, height: 32, borderRadius: "50%",
                   border: "1px solid #c8922a", background: "none",
@@ -706,10 +715,10 @@ export default function RecipeBook() {
                 }}
               >−</button>
               <span style={{ color: "#f5e6c8", fontSize: 22, fontWeight: 700, minWidth: 24, textAlign: "center" }}>
-                {servings}
+                {Math.round(servings * 10) / 10}
               </span>
               <button
-                onClick={() => setServings(s => s + 1)}
+                onClick={() => setServings(s => Math.floor(s) + 1)}
                 style={{
                   width: 32, height: 32, borderRadius: "50%",
                   border: "1px solid #c8922a", background: "none",
@@ -732,7 +741,7 @@ export default function RecipeBook() {
                 margin: 0,
               }}>Ingredients</h3>
               <span style={{ fontSize: 11, color: "#b0956a", fontFamily: "sans-serif", fontStyle: "italic" }}>
-                tap to mark as have
+                tap to mark as have · tap amount to rescale
                 {CONFIG.shoppingGuide.enabled && CONFIG.shoppingGuide.hint
                   ? ` · ${CONFIG.shoppingGuide.label} ${CONFIG.shoppingGuide.hint}`
                   : ""}
@@ -749,6 +758,8 @@ export default function RecipeBook() {
                 const ita = localTermFor(ing.name);
                 const noteKey = `${recipe.id}-${i}`;
                 const noteOpen = openNote === noteKey;
+                const editable = ing.amount && !CONFIG.unscalableUnits.includes(ing.unit);
+                const isEditing = editing === noteKey;
                 return (
                   <div
                     key={i}
@@ -825,19 +836,51 @@ export default function RecipeBook() {
                           )}
                         </div>
                       </div>
-                      <span style={{
-                        color: have ? "#c8b090" : "#8b6914",
-                        fontWeight: 700,
-                        fontFamily: "sans-serif",
-                        fontSize: 14,
-                        whiteSpace: "nowrap",
-                        flexShrink: 0,
-                        textDecoration: have ? "line-through" : "none",
-                        transition: "all 0.15s",
-                        marginTop: 1,
-                      }}>
-                        {formatAmount(ing)}
-                      </span>
+                      {isEditing ? (
+                        <span onClick={e => e.stopPropagation()} style={{ display: "flex", alignItems: "center", gap: 4, flexShrink: 0 }}>
+                          <input
+                            autoFocus
+                            inputMode="decimal"
+                            value={draft}
+                            onChange={e => setDraft(e.target.value)}
+                            onFocus={e => e.target.select()}
+                            onBlur={() => commitAmount(ing)}
+                            onKeyDown={e => {
+                              if (e.key === "Enter") commitAmount(ing);
+                              if (e.key === "Escape") setEditing(null);
+                            }}
+                            style={{
+                              width: 64, padding: "2px 6px", textAlign: "right",
+                              border: "1px solid #c8922a", borderRadius: 6,
+                              fontFamily: "sans-serif", fontSize: 14, fontWeight: 700, color: "#8b6914",
+                            }}
+                          />
+                          {ing.unit && <span style={{ color: "#8b6914", fontFamily: "sans-serif", fontSize: 14, fontWeight: 700 }}>{ing.unit}</span>}
+                        </span>
+                      ) : (
+                        <span
+                          onClick={editable ? (e) => {
+                            e.stopPropagation();
+                            setEditing(noteKey);
+                            setDraft(String(scaleAmount(ing.amount)));
+                          } : undefined}
+                          style={{
+                            color: have ? "#c8b090" : "#8b6914",
+                            fontWeight: 700,
+                            fontFamily: "sans-serif",
+                            fontSize: 14,
+                            whiteSpace: "nowrap",
+                            flexShrink: 0,
+                            textDecoration: have ? "line-through" : editable ? "underline dotted" : "none",
+                            textUnderlineOffset: 3,
+                            cursor: editable ? "text" : "pointer",
+                            transition: "all 0.15s",
+                            marginTop: 1,
+                          }}
+                        >
+                          {formatAmount(ing)}
+                        </span>
+                      )}
                     </div>
                     {noteOpen && ita?.note && (
                       <div style={{
