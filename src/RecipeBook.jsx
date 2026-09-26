@@ -273,7 +273,7 @@ const recipes = [
       { amount: 85, unit: "g", name: "cocoa powder (unsweetened)" },
       { amount: 3, name: "large eggs" },
       { amount: 1.5, unit: "tsp", name: "vanilla extract" },
-      { amount: 170, unit: "g", name: "plain flour" },
+      { amount: 90, unit: "g", name: "plain flour" },
       { amount: 0.375, unit: "tsp", name: "salt" },
       { amount: 0.375, unit: "tsp", name: "baking powder" },
       { amount: 200, unit: "g", name: "white chocolate, chopped into chunks", only: ["white"] },
