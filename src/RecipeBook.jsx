@@ -65,7 +65,7 @@ const recipes = [
       { amount: 100, unit: "g", name: "Pecorino Romano, grated" },
       { amount: 2, unit: "tbsp", name: "olive oil" },
       { amount: 1, unit: "tsp", name: "black pepper" },
-      { amount: 2, unit: "tsp", name: "salt (for pasta water)" },
+      { amount: 1, unit: "tbsp", name: "salt (for pasta water)" },
     ],
     steps: [
       { title: "Start the pasta", content: "Put {i:0} on to boil in well-salted water using {i:8}. Everything else finishes in the time it takes to cook, so start here. Reserve a cup of pasta water before draining." },
@@ -161,8 +161,8 @@ const recipes = [
       { amount: 4, name: "eggs (pasta)", only: ["classic", "fresh"] },
       { amount: 3, name: "eggs (pasta)", only: ["bologna", "fresh"] },
       { amount: 200, unit: "g", name: "fresh spinach", only: ["bologna", "fresh"] },
-      { amount: 250, unit: "g", name: "dried egg lasagne sheets", only: ["classic", "dry"] },
-      { amount: 250, unit: "g", name: "dried green lasagne sheets", only: ["bologna", "dry"] },
+      { amount: 400, unit: "g", name: "dried egg lasagne sheets", only: ["classic", "dry"] },
+      { amount: 400, unit: "g", name: "dried green lasagne sheets", only: ["bologna", "dry"] },
       // Ragù
       { amount: 150, unit: "g", name: "pancetta (unsmoked), finely diced" },
       { amount: 1, name: "large onion, finely chopped" },
